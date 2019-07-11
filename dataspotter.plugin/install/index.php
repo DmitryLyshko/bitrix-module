@@ -1,14 +1,13 @@
-<?
+<?php
 
 IncludeModuleLangFile(__FILE__);
-
 use \Bitrix\Main\ModuleManager;
 
-Class dspotter_plugin extends CModule
+class dataspotter1_plugin extends CModule
 {
-    var $MODULE_ID = "dspotter";
-    var $MODULE_VERSION;
-    var $MODULE_VERSION_DATE;
+    var $MODULE_ID = "dataspotter.plugin";
+    var $MODULE_VERSION = "1.0";
+    var $MODULE_VERSION_DATE = "2019-07-11 18:00:00";
     var $MODULE_NAME;
     var $MODULE_DESCRIPTION;
     var $errors;
@@ -16,18 +15,18 @@ Class dspotter_plugin extends CModule
     function __construct()
     {
         $arModuleVersion = [];
-        include __DIR__ . '/version.php';
-        if (is_array($arModuleVersion) && array_key_exists('VERSION', $arModuleVersion)) {
-            $this->MODULE_VERSION = $arModuleVersion['VERSION'];
-            $this->MODULE_VERSION_DATE = $arModuleVersion['VERSION_DATE'];
+        include __DIR__ . "/version.php";
+        if (is_array($arModuleVersion) && array_key_exists("VERSION", $arModuleVersion)) {
+            $this->MODULE_VERSION = $arModuleVersion["VERSION"];
+            $this->MODULE_VERSION_DATE = $arModuleVersion["VERSION_DATE"];
         }
         
-        $this->MODULE_ID = 'dspotter.plugin';
-        $this->MODULE_NAME = 'Dspotter plugin';
-        $this->MODULE_DESCRIPTION = 'Плагин Dspotter';
-        $this->MODULE_GROUP_RIGHTS = 'N';
-        $this->PARTNER_NAME = 'dspotter';
-        $this->PARTNER_URI = 'https://dspotter.dinrem.com/';
+        $this->MODULE_ID = "dataspotter.plugin";
+        $this->MODULE_NAME = "Dspotter plugin";
+        $this->MODULE_DESCRIPTION = "Плагин Dspotter";
+        $this->MODULE_GROUP_RIGHTS = "N";
+        $this->PARTNER_NAME = "dspotter";
+        $this->PARTNER_URI = "https://dspotter.dinrem.com/";
     }
 
     function DoInstall()
