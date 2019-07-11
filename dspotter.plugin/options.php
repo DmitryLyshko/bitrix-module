@@ -27,6 +27,17 @@ if ($settings === false) {
     ];
 }
 
+\Bitrix\Main\Loader::IncludeModule("sale");
+$statusResult = \Bitrix\Sale\Internals\StatusTable::getList([
+    'order' => array('SORT'=>'ASC'),
+    'filter' => array('TYPE'=>'O'),
+
+]);
+$stats = [];
+while($status = $statusResult->fetch()) {
+    $stats[$status['ID']] = CSaleStatus::GetByID($status['ID'])['NAME'];
+}
+
 $aTabs = [
     [
         'DIV' => 'edit1',
@@ -44,6 +55,10 @@ $aTabs = [
                 $settings['SITE_NAME'],
                 ['text', 30]
             ],
+            ['field_order_cancel', 'Статус отмены заказа на вашем сайте',
+                $settings['ORDER_CANCEL'],
+                ['selectbox', $stats]
+            ],
         ]
     ],
 ];
@@ -58,11 +73,12 @@ if ($request->isPost() && $request['Update'] && check_bitrix_sessid()) {
 
     $hash = $DB->ForSql($request->get('field_hash'));
     $site_name = $DB->ForSql($request->get('field_site_name'));
+    $order_cancel = $DB->ForSql($request->get('field_order_cancel'));
 
     if ($res === false) {
-        $result = $DB->Query("INSERT INTO dspotter_settings(`PLUGIN_ENABLED`, `HASH`, `SITE_NAME`) VALUES ({$enabled}, '{$hash}', '{$site_name}')");
+        $result = $DB->Query("INSERT INTO dspotter_settings(`PLUGIN_ENABLED`, `HASH`, `ORDER_CANCEL`, `SITE_NAME`) VALUES ({$enabled}, '{$hash}', '{$order_cancel}', '{$site_name}')");
     } else {
-        $result = $DB->Query("UPDATE dspotter_settings SET `PLUGIN_ENABLED` = {$enabled}, `HASH` = '{$hash}', `SITE_NAME` = '{$site_name}' where id = 1");
+        $result = $DB->Query("UPDATE dspotter_settings SET `PLUGIN_ENABLED` = {$enabled}, `HASH` = '{$hash}', `SITE_NAME` = '{$site_name}', `ORDER_CANCEL` = '{$order_cancel}' where id = 1");
     }
 
     $result->fetch();

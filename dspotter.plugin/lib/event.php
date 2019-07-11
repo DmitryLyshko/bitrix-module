@@ -5,6 +5,10 @@ namespace Dspotter\Plugin;
 require_once("SettingsTable.php");
 require_once("OrderTable.php");
 
+/**
+ * Class Event
+ * @package Dspotter\Plugin
+ */
 class Event
 {
     CONST API_URL = 'https://dspotter.dinrem.com/api/birix/event';
@@ -71,8 +75,7 @@ class Event
         $params = self::getOrderParams($payment, $settings);
         $order = json_decode($params, true);
 
-        $arFilter = ['ORDER_ID' => (int) $order['transaction_id']];
-        $res = OrderTable::GetList([], $arFilter, false, ['nPageSize' => 50], ['CID']);
+        $res = OrderTable::GetList(['filter' => ['=ORDER_ID' => $order['transaction_id']]]);
         $order_history = $res->fetch();
 
         $sendingParams = [
@@ -105,13 +108,11 @@ class Event
         }
 
         $order = $event->getParameter("ENTITY");
-        //TODO playtoday
-        if ($order->getField('STATUS_ID') !== 'G') {
+        if ($order->getField('STATUS_ID') !== $settings['ORDER_CANCEL']) {
             return false;
         }
 
-        $arFilter = ['ORDER_ID' => (int) $order->getField('ID')];
-        $res = OrderTable::GetList([], $arFilter, false, ['nPageSize' => 50], ['CID']);
+        $res = OrderTable::GetList(['filter' => ['=ORDER_ID' => $order->getField('ID')]]);
         $order_history = $res->fetch();
 
         $sendingParams = [
