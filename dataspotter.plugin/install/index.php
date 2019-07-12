@@ -3,7 +3,7 @@
 IncludeModuleLangFile(__FILE__);
 use \Bitrix\Main\ModuleManager;
 
-class dataspotter1_plugin extends CModule
+class dataspotter_plugin extends CModule
 {
     var $MODULE_ID = "dataspotter.plugin";
     var $MODULE_VERSION = "1.0";
