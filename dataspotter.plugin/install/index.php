@@ -48,7 +48,7 @@ class dataspotter1_plugin extends CModule
     {
         global $DB;
         $this->errors = false;
-        $this->errors = $DB->RunSQLBatch($_SERVER['DOCUMENT_ROOT'] . "/local/modules/dspotter.plugin/install/db/install.sql");
+        $this->errors = $DB->RunSQLBatch($_SERVER['DOCUMENT_ROOT'] . "/bitrix/modules/dataspotter.plugin/install/db/install.sql");
         if (!$this->errors) {
 
             return true;
@@ -60,7 +60,7 @@ class dataspotter1_plugin extends CModule
     {
         global $DB;
         $this->errors = false;
-        $this->errors = $DB->RunSQLBatch($_SERVER['DOCUMENT_ROOT'] . "/local/modules/dspotter.plugin/install/db/uninstall.sql");
+        $this->errors = $DB->RunSQLBatch($_SERVER['DOCUMENT_ROOT'] . "/bitrix/modules/dataspotter.plugin/install/db/uninstall.sql");
         if (!$this->errors) {
             return true;
         } else
